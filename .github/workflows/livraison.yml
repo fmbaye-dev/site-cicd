@@ -27,10 +27,10 @@ jobs:
 
       - name: Préparer le site
         run: |
-          mkdir-p _site
+          mkdir -p _site
           cp *.html _site/
           echo "Version ${{ github.sha }} construite le $(date)" > _site/version.txt
-          ls-l _site
+          ls -l _site
       - name: Livrer l'artefact
         uses: actions/upload-artifact@v7
         with:
