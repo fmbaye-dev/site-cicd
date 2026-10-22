@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Vérifier que la page d'accueil existe
-        run: test-f index.html
+        run: test -f index.html
 
       - name: Vérifier que la page a un titre
         run: grep "<h1>" index.html
