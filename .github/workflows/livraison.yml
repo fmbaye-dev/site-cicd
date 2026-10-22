@@ -31,8 +31,12 @@ jobs:
           cp *.html _site/
           echo "Version ${{ github.sha }} construite le $(date)" > _site/version.txt
           ls -l _site
+
       - name: Livrer l'artefact
         uses: actions/upload-artifact@v7
         with:
           name: site-web
           path: _site/
+
+      - name: Utiliser un secret
+        run: echo "Le secret vaut ${{ secrets.MESSAGE_SECRET }}"
