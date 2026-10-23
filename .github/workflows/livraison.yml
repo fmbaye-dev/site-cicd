@@ -1,4 +1,4 @@
-name: Livraison continue
+name: Livraison et déploiement continus
 
 on:
   push:
@@ -27,16 +27,26 @@ jobs:
 
       - name: Préparer le site
         run: |
-          mkdir -p _site
+          mkdir-p _site
           cp *.html _site/
           echo "Version ${{ github.sha }} construite le $(date)" > _site/version.txt
           ls -l _site
 
-      - name: Livrer l'artefact
-        uses: actions/upload-artifact@v7
+      - name: Livrer l'artefact pour GitHub Pages
+        uses: actions/upload-pages-artifact@v5
         with:
-          name: site-web
           path: _site/
 
-      - name: Utiliser un secret
-        run: echo "Le secret vaut ${{ secrets.MESSAGE_SECRET }}"
+  deployer:
+    needs: construire
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploiement.outputs.page_url }}
+    steps:
+      - name: Déployer sur GitHub Pages
+        id: deploiement
+        uses: actions/deploy-pages@v5
